@@ -1,0 +1,21 @@
+#!/bin/bash
+
+CMD=pdflatex
+
+# start over
+rm -f output_latex.pdf    # don't name anything output_latex.pdf
+
+# compile (extra to be safe) to get references right
+$CMD -interaction=nonstopmode main.tex
+bibtex main.aux
+$CMD -interaction=nonstopmode main.tex 
+$CMD -interaction=nonstopmode main.tex 
+$CMD -interaction=nonstopmode main.tex 
+
+# clean up
+rm -f main.aux main.log main.nav main.snm
+rm -f main.toc main.out main.blg main.bbl
+
+# rename and open
+mv main.pdf output_latex.pdf
+evince output_latex.pdf

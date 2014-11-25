@@ -1,0 +1,82 @@
+#!/bin/bash
+
+echo ""
+echo "    Hostname: $HOSTNAME"
+
+echo -n "    CPU: "
+cat /proc/cpuinfo 2> /dev/null | grep 'model name' | \
+    cut -d ':' -f 2 | uniq -c | sed 's/^ *//'
+
+# gets the RAM (in kilobytes)
+RAM=`cat /proc/meminfo 2> /dev/null | grep 'MemTotal' | \
+    cut -d ':' -f 2 | sed 's/^ *//' | cut -f 1 -d ' '`
+# convert to gigabytes with integer arithmetic
+GIGS=$(($RAM/1024/1024))
+MEGS=$(((100*($RAM - $GIGS*1024*1024)/1024)/1024))
+echo "    RAM: ${GIGS}.${MEGS}G"
+HD=`echo $(df -h | sed '2!d') | cut -f 2-5 -d ' '`
+HD[1]=`echo $HD | cut -f 1 -d ' '`
+HD[2]=`echo $HD | cut -f 2 -d ' '`
+HD[3]=`echo $HD | cut -f 3 -d ' '`
+HD[4]=`echo $HD | cut -f 4 -d ' '`
+echo "    HD:  Size   ${HD[1]}"
+echo "         Used   ${HD[2]}"
+echo "         Avail  ${HD[3]}"
+echo "         Use%   ${HD[4]}"
+
+echo -n "    Uptime:"
+uptime 2> /dev/null
+
+# i could probably customize the shell to display this
+# information across the top
+
+# BATTERY
+# the directory where the battery stuff on the chromebook is,
+# may be different for other systems
+DIR=/sys/class/power_supply/BAT0
+
+STATUS=`cat $DIR/status`
+POWER_NOW=`cat $DIR/charge_now`
+POWER_MAX=`cat $DIR/charge_full`
+
+# use bash arithmetic to get a percentage and decimal point
+PERC=$(((1000*$POWER_NOW)/$POWER_MAX))
+# add the decimal point
+if [ $PERC == 1000 ]; then
+    PERC=100.0
+else
+    PERC=${PERC:0:2}.${PERC:2:1}
+fi
+
+if [ $STATUS == "Unknown" ]; then
+    STATUS=Charging
+fi
+
+echo ""
+echo "    Battery status: $STATUS"
+if [ $STATUS == "Discharging" ]; then
+    echo "    Power level: $PERC%"
+#   I will need to calculate this myself, the ASUS doesn't have the file
+#   like the Chromebook does
+#   TIME=`cat $DIR/time_to_empty_avg`
+#   HOUR=$(($TIME/60/60))
+#   MIN=$(($TIME/60 - 60*$HOUR))
+#   echo "    Time remaining: ${HOUR}h ${MIN}m"
+fi
+if [ $STATUS == "Charging" ]; then
+    echo "    Power level: $PERC%"
+#   TIME=`cat $DIR/time_to_full_avg`
+#   HOUR=$(($TIME/60/60))
+#   MIN=$(($TIME/60 - 60*$HOUR))
+#   echo "    Time remaining: ${HOUR}h ${MIN}m"
+fi
+echo ""
+
+# CPU temperature
+# DIR=/sys/class/thermal/thermal_zone0/
+# 
+# echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
+# echo "    Critical: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
+# echo ""
+
+

@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# written by David Dahl, waits for a change to be made in a file you're
+# editting. When a change is made, run a specified command (like compile
+# this C script, for instance)
+
+SCRIPTNAME=$(basename "$0")
+
+print_help() {
+  cat << EOF
+Usage: $SCRIPTNAME [ -d DIRECTORY ] REGEX [ CMD [ ARG1 ARG2 ... ] ]
+Sleep until a file matching regular expression 'REGEX' in directory 'DIRECTORY'
+has been modified, where 'DIRECTORY' is assumed to be the current working
+directory, if not specified.
+EOF
+}
+
+DIRNAME="."
+# parse_parameters:
+while [[ "$1" == -* ]] ; do
+  case "$1" in
+    -h|-help|--help)
+      print_help
+      exit
+      ;;
+    -d|-dir|-directory|--dir|--directory)
+      shift
+      DIRNAME="$1"
+      shift
+      break
+      ;;
+    --)
+      #echo "-- found"
+      shift
+      break
+      ;;
+    *)
+      echo "Invalid parameter: '$1'"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ "$#" -lt 1 ]] ; then
+  echo "Incorrect parameters. Use --help for usage instructions."
+  exit 1
+fi
+
+REGEX="$1"
+shift
+
+LOOP=TRUE
+if [[ $# -eq 0 ]]
+then
+  LOOP=FALSE
+fi 
+
+coproc INOTIFY {
+  inotifywait -q -m -e close_write,moved_to ${DIRNAME} &
+  trap "kill $!" 1 2 3 6 15
+  wait
+}
+trap "kill $INOTIFY_PID; exit" 0 1 2 3 6 15
+
+function sleepuntil {
+  sed -r -n "/^.+ (CLOSE_WRITE|MOVED_TO)(,CLOSE)? (${REGEX})\$/q" 0<&${INOTIFY[0]}
+  if [[ $? -ne 0 ]]
+  then
+    exit 1
+  fi
+}
+
+if [[ $LOOP == TRUE ]]
+then
+  "$@"
+  while true
+  do
+    echo "########## Waiting for changes matching '$REGEX' in '$DIRNAME' ##########"
+    sleepuntil
+    "$@"
+  done
+else
+  sleepuntil
+fi
+
