@@ -1,5 +1,9 @@
 #!/bin/bash
 
-git add -A .
-git commit -am 'yes'
+# short script to just run all the git commands i commonly use
+git add .
+git commit -m 'yes'
 git push
+
+# don't forget to pull before making changes and don't forget
+# to push when done

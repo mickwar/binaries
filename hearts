@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $USER == "mickey" ]; then
+    PNUM=1
+fi
+if [ $USER == "arthurll" ]; then
+    PNUM=2
+fi
+if [ $USER == "philaw" ]; then
+    PNUM=3
+fi
+if [ $USER == "roundy8" ]; then
+    PNUM=4
+fi
+
+HDIR=/home/mickey
+cd $HDIR
+
+DIR=~
+rm -f $DIR/.hearts_table
+
+Rdir=$DIR/files/R/hearts
+R CMD BATCH $Rdir/deal.R /dev/null
+
+CARDS=`sed ''$PNUM'!d' $Rdir/hands.txt`

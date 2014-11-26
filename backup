@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# write a script that backs up files to an external harddrive
+
+# check the last time a file was modified: date --reference=FILENAME +%s
+# the +%s makes things comparabe
+
+# check seconds from 1 Jan 1970: date +%s
+
+# modify backed-up files by appending the seconds to the filename
+
+# check if two files are equivalent, don't overwrite if so, create new file
+# with appended seconds name to it
+
+# provide a list of directories to include in the back up script,
+# perhaps with a file maintained on the external harddrive or elsewhere
+
+# HD_DIR="/media/My Passport"
+
+# find ~ -type d -not -path '*/.*/*' -not -name '.*' > ~/.temp_directories
+# 
+# while read DIR; do
+#     echo $HD_DIR$DIR
+# done < ~/.temp_directories
+
+HD_DIR="/media/backup_drive_1tb/ubuntu_home/"
+
+/bin/cp -urv --preserve=all /home/mickey/bin $HD_DIR
+/bin/cp -urv --preserve=all /home/mickey/files $HD_DIR
+
+# specific files
+# /bin/cp -urv --preserve=all /home/mickey/.tmux.conf $HD_DIR
+# /bin/cp -urv --preserve=all /home/mickey/.bashrc $HD_DIR
+# /bin/cp -urv --preserve=all /home/mickey/.vimrc $HD_DIR
+# /bin/cp -urv --preserve=all /home/mickey/.vimrc.line-feeder-3 $HD_DIR
+
+
+

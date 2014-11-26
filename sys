@@ -35,18 +35,21 @@ uptime 2> /dev/null
 # may be different for other systems
 DIR=/sys/class/power_supply/BAT0
 
-STATUS=`cat $DIR/status`
-POWER_NOW=`cat $DIR/charge_now`
-POWER_MAX=`cat $DIR/charge_full`
+if [ $HOSTNAME == "quasar" ]; then
+    STATUS=`cat $DIR/status`
+    POWER_NOW=`cat $DIR/energy_now`
+    POWER_MAX=`cat $DIR/energy_full`
+fi
+if [ $HOSTNAME == "starquake" ]; then
+    STATUS=`cat $DIR/status`
+    POWER_NOW=`cat $DIR/charge_now`
+    POWER_MAX=`cat $DIR/charge_full`
+fi
 
 # use bash arithmetic to get a percentage and decimal point
 PERC=$(((1000*$POWER_NOW)/$POWER_MAX))
 # add the decimal point
-if [ $PERC == 1000 ]; then
-    PERC=100.0
-else
-    PERC=${PERC:0:2}.${PERC:2:1}
-fi
+PERC=${PERC:0:2}.${PERC:2:1}
 
 if [ $STATUS == "Unknown" ]; then
     STATUS=Charging
@@ -72,11 +75,13 @@ if [ $STATUS == "Charging" ]; then
 fi
 echo ""
 
-# CPU temperature
-# DIR=/sys/class/thermal/thermal_zone0/
-# 
-# echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
-# echo "    Critical: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
-# echo ""
+# CPU
+if [ $HOSTNAME == "quasar" ]; then
+    DIR=/sys/class/thermal/thermal_zone0/
 
+    echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
+    echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
+    echo "    Critical: $((`cat $DIR/trip_point_1_temp`/1000)) degrees C"
+    echo ""
+fi
 

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# convert directory/filenames to all lower-case
+# be cautious that other files may depend on the
+# originally named file, such files would need
+# to be editted
+
+for x in `ls`; do
+    new=`echo $x | tr '[A-Z]' '[a-z]'`
+    if [ $x != $new ]; then
+        mv -i $x $new
+    fi
+done

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# remove the first page of a pdf file (for those publishers,
+# like JSTOR, which add a lame first page to an article)
+
+CMD=pdftk
+
+# checks if $CMD is available before executing command
+if [ ! \( -f "`which $CMD`" \) ]; then
+    echo "$CMD: command not found"
+    exit 1
+fi
+
+for FILE in "$@"; do
+    mv $FILE .temp_mw_$FILE
+    $CMD .temp_mw_$FILE cat 2-end output $FILE
+    if [ "$1" == "--delete" ]; then
+        rm -f .temp_mw_$FILE
+    fi
+done
