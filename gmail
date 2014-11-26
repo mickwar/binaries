@@ -30,16 +30,16 @@ if [ "$1" == "--help" ]; then
     exit 0
 fi
 
-if [ "$1" == "-i" ]; then
+# if [ "$1" == "-i" ]; then
     read -e -p "Enter username: " USERNAME
     read -es -p "Enter password: " PASSWORD
     echo ""
-else
-    FILE="/home/mickey/bin/.data/email.txt"
-    read -e -p "Enter username: " -i `sed '1!d' $FILE` USERNAME
-    read -es -p "Enter password: " -i `sed '2!d' $FILE` PASSWORD
-    echo ""
-fi
+# else
+#     FILE="/home/mickey/bin/.data/email.txt"
+#     read -e -p "Enter username: " -i `sed '1!d' $FILE` USERNAME
+#     read -es -p "Enter password: " -i `sed '2!d' $FILE` PASSWORD
+#     echo ""
+# fi
 
 # get the information for unread messages and put
 # them in the file "$GMAIL_PARSE"
