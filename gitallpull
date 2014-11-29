@@ -3,15 +3,23 @@
 DIR=.
 
 cd ~/bin
+echo Pulling from ~/bin
 git pull
+echo ""
 
 cd ~/files/python
+echo Pulling from ~/files/python
 git pull
+echo ""
 
 cd ~/files/R
+echo Pulling from ~/files/R
 git pull
+echo ""
 
 cd ~/files/ubuntu-config
+echo Pulling from ~/files/ubuntu-config
 git pull
+echo ""
 
 cd $DIR

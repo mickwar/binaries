@@ -5,14 +5,21 @@ DIR=.
 cd ~/bin
 echo Pushing to ~/bin
 gitall
+echo ""
 
 cd ~/files/python
+echo Pushing to ~/files/python
 gitall
+echo ""
 
 cd ~/files/R
+echo Pushing to ~/files/R
 gitall
+echo ""
 
 cd ~/files/ubuntu-config
+echo Pushing to ~/files/ubuntu-config
 gitall
+echo ""
 
 cd $DIR
