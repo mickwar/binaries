@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR=.
+
+cd ~/bin
+echo Pushing to ~/bin
+gitall
+
+cd ~/files/python
+gitall
+
+cd ~/files/R
+gitall
+
+cd ~/files/ubuntu-config
+gitall
+
+cd $DIR

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR=.
+
+cd ~/bin
+git pull
+
+cd ~/files/python
+git pull
+
+cd ~/files/R
+git pull
+
+cd ~/files/ubuntu-config
+git pull
+
+cd $DIR
