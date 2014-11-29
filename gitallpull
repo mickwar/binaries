@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# for pulling from all of my repositores at github (would need to modify as new repositories are added)
+
 DIR=.
 
 cd ~/bin
