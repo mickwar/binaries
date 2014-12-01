@@ -34,6 +34,9 @@ uptime 2> /dev/null
 # the directory where the battery stuff on the chromebook is,
 # may be different for other systems
 DIR=/sys/class/power_supply/BAT0
+if [ $HOSTNAME == "aurora" ]; then
+    DIR=/sys/class/power_supply/sbs-104-000b/
+fi
 
 if [ $HOSTNAME == "quasar" ]; then
     STATUS=`cat $DIR/status`
@@ -41,6 +44,11 @@ if [ $HOSTNAME == "quasar" ]; then
     POWER_MAX=`cat $DIR/energy_full`
 fi
 if [ $HOSTNAME == "starquake" ]; then
+    STATUS=`cat $DIR/status`
+    POWER_NOW=`cat $DIR/charge_now`
+    POWER_MAX=`cat $DIR/charge_full`
+fi
+if [ $HOSTNAME == "aurora" ]; then
     STATUS=`cat $DIR/status`
     POWER_NOW=`cat $DIR/charge_now`
     POWER_MAX=`cat $DIR/charge_full`
@@ -61,17 +69,21 @@ if [ $STATUS == "Discharging" ]; then
     echo "    Power level: $PERC%"
 #   I will need to calculate this myself, the ASUS doesn't have the file
 #   like the Chromebook does
-#   TIME=`cat $DIR/time_to_empty_avg`
-#   HOUR=$(($TIME/60/60))
-#   MIN=$(($TIME/60 - 60*$HOUR))
-#   echo "    Time remaining: ${HOUR}h ${MIN}m"
+    if [ $HOSTNAME == "aurora" ]; then
+        TIME=`cat $DIR/time_to_empty_avg`
+        HOUR=$(($TIME/60/60))
+        MIN=$(($TIME/60 - 60*$HOUR))
+        echo "    Time remaining: ${HOUR}h ${MIN}m"
+    fi
 fi
 if [ $STATUS == "Charging" ]; then
     echo "    Power level: $PERC%"
-#   TIME=`cat $DIR/time_to_full_avg`
-#   HOUR=$(($TIME/60/60))
-#   MIN=$(($TIME/60 - 60*$HOUR))
-#   echo "    Time remaining: ${HOUR}h ${MIN}m"
+    if [ $HOSTNAME == "aurora" ]; then
+        TIME=`cat $DIR/time_to_full_avg`
+        HOUR=$(($TIME/60/60))
+        MIN=$(($TIME/60 - 60*$HOUR))
+        echo "    Time remaining: ${HOUR}h ${MIN}m"
+    fi
 fi
 echo ""
 
@@ -85,3 +97,11 @@ if [ $HOSTNAME == "quasar" ]; then
     echo ""
 fi
 
+if [ $HOSTNAME == "aurora" ]; then
+    DIR=/sys/class/thermal/thermal_zone0/
+
+    echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
+    echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
+    echo "    Critical: $((`cat $DIR/trip_point_2_temp`/1000)) degrees C"
+    echo ""
+fi

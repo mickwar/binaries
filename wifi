@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# sequence to set up wireless connection
+# argument one is either byu or 208 (as of 5 may 2014)
+# add additional networks and their passwords to:
+# ~/bin/.networks/
+
+# need to look at man pages for each of these commands,
+# at least for dhclient, getting some annoying errors
+# when network goes down
+
+# a bit hacky, see if i can improve
+# gets the essid (network name) and key (password)
+# from the file found in .networks, $1 is the argument
+
+# preferred networks
+PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:FOURTH_NETWORK
+N=4
+
+# turn off (hoping to prevent errors) then turn on
+# wireless card
+sudo ifconfig mlan0 down
+sudo ifconfig mlan0 up
+
+rm -f ~/.wireless_network_list
+sudo iwlist mlan0 scan > ~/.wireless_network_list
+
+for (( i=1; i <= N; i++ )); do
+    # check which network to connect to (apt_208 or BYUSecure)
+    ESSID=`echo $PREFER | cut -f $i -d ':'`
+    if [[ -n `grep "ESSID:\"$ESSID\"" ~/.wireless_network_list` ]]; then
+        echo "Connecting to $ESSID ..."
+        break
+    fi
+    if [ $i -eq $N ]; then
+        echo "Unable to connect to preferred networks."
+        rm -f ~/.wireless_network_list
+        exit 1
+    fi
+done
+rm -f ~/.wireless_network_list
+
+if [ ! \( -e ~/bin/.networks/$ESSID \) ]; then
+    echo "No password file found for $ESSID."
+    exit 1
+fi
+KEY=`cat ~/bin/.networks/$ESSID`
+
+
+# generate file to be used in conjunction with wpa_supplicant
+wpa_passphrase $ESSID $KEY > ~/.wpa.conf
+
+# gives two Invalid arguments messages
+sudo wpa_supplicant -B -imlan0 -c/home/mickey/.wpa.conf -Dwext 2> /dev/null
+
+# release current IP and get a new one
+sudo dhclient -r mlan0
+sudo dhclient -v mlan0 2> /dev/null
+
+# remove generated file to save space (get into this habit)
+rm -f /home/mickey/.wpa.conf
+
+# want to get this part going, just a simple check if connected
+# if eval "ping -c 1 google.com"
+# then
+#     echo "Connected to $ESSID."
+# else
+#     echo "Failed connection to $ESSID."
+# fi
