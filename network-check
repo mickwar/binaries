@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PING=google.com
+
+rm -f ~/.ping.txt
+ping -q -c 1 -W 3 $PING > ~/.ping.txt 2>&1
+if [ "$?" -eq 0 ]; then
+    if [ "$1" != "-s" ]; then
+        echo -e "\n    Internet connection established.\n"
+    fi 
+    rm -f ~/.ping.txt
+    exit 0
+else
+    if [ "$1" != "-s" ]; then
+        echo -e "\n    Not connected to the Internet.\n"
+    fi 
+    rm -f ~/.ping.txt
+    exit 1
+fi
