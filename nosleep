@@ -1,1 +1,6 @@
+<<<<<<< HEAD
+=======
+#!/bin/bash
+
+>>>>>>> 9d187814a844392ade04382e575433be0b2114ea
 setterm -powersave off -blank 0
