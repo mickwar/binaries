@@ -24,4 +24,9 @@ echo Pushing to ~/files/ubuntu-config
 gitall
 echo ""
 
+cd ~/files/data
+echo Pushing to ~/files/data
+gitall
+echo ""
+
 cd $DIR

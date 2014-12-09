@@ -24,4 +24,9 @@ echo Pulling from ~/files/ubuntu-config
 git pull
 echo ""
 
+cd ~/files/data
+echo Pulling from ~/files/data
+git pull
+echo ""
+
 cd $DIR
