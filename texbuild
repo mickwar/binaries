@@ -1,16 +1,18 @@
 #!/bin/bash
 
-CMD=pdflatex
-
-# start over
+### start fresh
 rm -f output_latex.pdf    # don't name anything output_latex.pdf
 
-# compile (extra to be safe) to get references right
-$CMD -interaction=nonstopmode main.tex
-bibtex main.aux
-$CMD -interaction=nonstopmode main.tex 
-$CMD -interaction=nonstopmode main.tex 
-$CMD -interaction=nonstopmode main.tex 
+# compile the .tex once
+pdflatex -interaction=nonstopmode main.tex
+
+# if refs.bib is in the directory, then run additional code
+# (to get the references right
+if [ -e ./refs.bib ]; then
+    bibtex main.aux
+    pdflatex -interaction=nonstopmode main.tex 
+    pdflatex -interaction=nonstopmode main.tex 
+fi
 
 # clean up
 rm -f main.aux main.log main.nav main.snm
