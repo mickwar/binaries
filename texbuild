@@ -20,4 +20,9 @@ rm -f main.toc main.out main.blg main.bbl
 
 # rename and open
 mv main.pdf output_latex.pdf
-evince output_latex.pdf
+
+if [ "$1" == "--noprint" ]; then
+    echo "no print option"
+else
+    evince output_latex.pdf
+fi
