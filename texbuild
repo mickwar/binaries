@@ -21,6 +21,8 @@ rm -f main.toc main.out main.blg main.bbl
 # rename and open
 mv main.pdf output_latex.pdf
 
+# default is to evince the out file, unless the
+# command is texbuild --noprint
 if [ "$1" == "--noprint" ]; then
     echo "no print option"
 else
