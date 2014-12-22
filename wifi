@@ -14,8 +14,8 @@
 # from the file found in .networks, $1 is the argument
 
 # preferred networks
-PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:752226
-N=4
+PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:752226:FIFTH_NETWORK
+N=5
 
 # turn off (hoping to prevent errors) then turn on
 # wireless card
@@ -26,7 +26,7 @@ rm -f ~/.wireless_network_list
 sudo iwlist mlan0 scan > ~/.wireless_network_list
 
 for (( i=1; i <= N; i++ )); do
-    # check which network to connect to (apt_208 or BYUSecure)
+    # check which network to connect to
     ESSID=`echo $PREFER | cut -f $i -d ':'`
     if [[ -n `grep "ESSID:\"$ESSID\"" ~/.wireless_network_list` ]]; then
         echo "Connecting to $ESSID ..."
@@ -42,7 +42,7 @@ rm -f ~/.wireless_network_list
 
 if [ ! \( -e ~/bin/.networks/$ESSID \) ]; then
     echo "No password file found for $ESSID."
-    exit 1
+    exit 2
 fi
 KEY=`cat ~/bin/.networks/$ESSID`
 
