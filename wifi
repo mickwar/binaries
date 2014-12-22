@@ -14,7 +14,7 @@
 # from the file found in .networks, $1 is the argument
 
 # preferred networks
-PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:FOURTH_NETWORK
+PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:752226
 N=4
 
 # turn off (hoping to prevent errors) then turn on
