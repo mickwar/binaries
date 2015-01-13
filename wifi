@@ -14,8 +14,10 @@
 # from the file found in .networks, $1 is the argument
 
 # preferred networks
-PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:752226:FIFTH_NETWORK
+PREFER=HandsomeMensClub5:BYUSecure:Steelefamily-G:752226:linksys_SES_19727
 N=5
+
+# hidden networks don't seem to work
 
 # turn off (hoping to prevent errors) then turn on
 # wireless card
