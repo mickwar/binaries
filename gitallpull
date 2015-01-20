@@ -29,4 +29,9 @@ echo Pulling from ~/files/data
 git pull
 echo ""
 
+cd ~/files/julia
+echo Pulling from ~/files/julia
+git pull
+echo ""
+
 cd $DIR

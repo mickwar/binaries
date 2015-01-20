@@ -29,4 +29,9 @@ echo Pushing to ~/files/data
 gitall
 echo ""
 
+cd ~/files/julia
+echo Pushing to ~/files/julia
+gitall
+echo ""
+
 cd $DIR
