@@ -7,12 +7,13 @@ rm -f output_latex.pdf    # don't name anything output_latex.pdf
 pdflatex -interaction=nonstopmode main.tex
 
 # if refs.bib is in the directory, then run additional code
-# (to get the references right
 if [ -e ./refs.bib ]; then
     bibtex main.aux
     pdflatex -interaction=nonstopmode main.tex 
-    pdflatex -interaction=nonstopmode main.tex 
 fi
+
+# get the references correct (for both regular latex references and natbib)
+pdflatex -interaction=nonstopmode main.tex 
 
 # clean up
 rm -f main.aux main.log main.nav main.snm
