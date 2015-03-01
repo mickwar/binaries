@@ -2,36 +2,50 @@
 
 # for pulling from all of my repositores at github (would need to modify as new repositories are added)
 
-DIR=.
+DIR=`pwd`
+LOCAL_DIR=(~/bin ~/files/python ~/files/R)
 
-cd ~/bin
-echo Pulling from ~/bin
-git pull
-echo ""
-
-cd ~/files/python
-echo Pulling from ~/files/python
-git pull
-echo ""
-
-cd ~/files/R
-echo Pulling from ~/files/R
-git pull
-echo ""
-
-cd ~/files/ubuntu-config
-echo Pulling from ~/files/ubuntu-config
-git pull
-echo ""
-
-cd ~/files/data
-echo Pulling from ~/files/data
-git pull
-echo ""
-
-cd ~/files/julia
-echo Pulling from ~/files/julia
-git pull
-echo ""
+for repository in ${LOCAL_DIR[@]}
+do
+    cd $respository
+    echo Pulling from $repository
+    git pull
+    echo ""
+done
 
 cd $DIR
+
+# 
+# 
+# cd ~/bin
+# 
+# echo Pulling from ~/bin
+# git pull
+# echo ""
+# 
+# cd ~/files/python
+# echo Pulling from ~/files/python
+# git pull
+# echo ""
+# 
+# cd ~/files/R
+# echo Pulling from ~/files/R
+# git pull
+# echo ""
+# 
+# cd ~/files/ubuntu-config
+# echo Pulling from ~/files/ubuntu-config
+# git pull
+# echo ""
+# 
+# cd ~/files/data
+# echo Pulling from ~/files/data
+# git pull
+# echo ""
+# 
+# cd ~/files/julia
+# echo Pulling from ~/files/julia
+# git pull
+# echo ""
+# 
+# cd $DIR
