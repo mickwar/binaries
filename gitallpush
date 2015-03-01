@@ -2,36 +2,23 @@
 
 # for pushing to all of my repositores at github (would need to modify as new repositories are added)
 
-DIR=.
+DIR=`pwd`
+LOCAL_REPO=(
+    ~/bin
+    ~/files/python
+    ~/files/R
+    ~/files/ubuntu-config
+    ~/files/data
+    ~/files/julia
+    ~/files/C
+    )
 
-cd ~/bin
-echo Pushing to ~/bin
-gitall
-echo ""
-
-cd ~/files/python
-echo Pushing to ~/files/python
-gitall
-echo ""
-
-cd ~/files/R
-echo Pushing to ~/files/R
-gitall
-echo ""
-
-cd ~/files/ubuntu-config
-echo Pushing to ~/files/ubuntu-config
-gitall
-echo ""
-
-cd ~/files/data
-echo Pushing to ~/files/data
-gitall
-echo ""
-
-cd ~/files/julia
-echo Pushing to ~/files/julia
-gitall
-echo ""
+for repository in ${LOCAL_REPO[@]}
+do
+    cd $repository
+    echo Pushing to $repository
+    gitall
+    echo ""
+done
 
 cd $DIR
