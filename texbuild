@@ -23,9 +23,9 @@ rm -f main.toc main.out main.blg main.bbl
 mv main.pdf output_latex.pdf
 
 # default is to evince the out file, unless the
-# command is texbuild --noprint
-if [ "$1" == "--noprint" ]; then
-    echo "no print option"
+# command is texbuild --noevince
+if [ "$1" == "--noevince" ]; then
+    echo "no evince option"
 else
     evince output_latex.pdf
 fi
