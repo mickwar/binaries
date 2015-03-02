@@ -4,4 +4,24 @@
 # std=c99, using c99 convention (stanard)
 # terms at the end are for some libraries (links)
 
-gcc -std=c99 -o cout main.c -lgsl -lgslcblas -lm
+# argument one should be infile name
+# argument two, if it does not begin with a dash, is outfile name
+# remaining arguments are for links
+
+if [ "$#" == 0 ]; then
+    echo "usage: cbuild file.c [outfile] [-link1 -link2 ...]"
+    exit 1
+fi
+
+INFILE=$1
+shift
+
+OUTFILE="a.out"
+if [ "$#" -gt 0 ]; then
+    if [ "${1:0:1}" != "-" ]; then
+        OUTFILE=$1
+        shift
+    fi
+fi
+
+gcc -std=c99 -o $OUTFILE $INFILE $@
