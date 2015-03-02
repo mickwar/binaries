@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Functions to change the color of text printed the terminal
+
 function col_black {
     echo -e "\033[0;30m$@\033[0m"
     }
