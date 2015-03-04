@@ -14,6 +14,7 @@ fi
 
 # get the references correct (for both regular latex references and natbib)
 pdflatex -interaction=nonstopmode main.tex 
+pdflatex -interaction=nonstopmode main.tex 
 
 # clean up
 rm -f main.aux main.log main.nav main.snm
