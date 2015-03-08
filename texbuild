@@ -1,5 +1,10 @@
 #!/bin/bash
 
+### TODO: do a check to see if main.tex is in the working directory,
+###       if so, then compile that file, otherwise compile the first
+###       argument. if only one .tex file exists in the directory,
+###       compile that file without expecting an argument
+
 ### start fresh
 rm -f output_latex.pdf    # don't name anything output_latex.pdf
 
