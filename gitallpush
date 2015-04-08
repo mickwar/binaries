@@ -12,6 +12,7 @@ LOCAL_REPO=(
     ~/files/julia
     ~/files/C
     ~/files/homework
+    ~/files/latex
     )
 
 for repository in ${LOCAL_REPO[@]}
