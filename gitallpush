@@ -13,7 +13,6 @@ LOCAL_REPO=(
     ~/files/C
     ~/files/homework
     ~/files/latex
-    ~/files/github_website
     )
 
 for repository in ${LOCAL_REPO[@]}
