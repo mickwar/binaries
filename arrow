@@ -1,5 +1,5 @@
 #!/bin/bash
-# Written by Arthur Lui
+# Written by Arthur Lui: github.com/luiarthur
 # For instructions on how to use getopts, see:  http://wiki.bash-hackers.org/howto/getopts_tutorial
 
 username="mawarner" # Change this accordingly
