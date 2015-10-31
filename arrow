@@ -1,0 +1,52 @@
+#!/bin/bash
+# Written by Arthur Lui
+# For instructions on how to use getopts, see:  http://wiki.bash-hackers.org/howto/getopts_tutorial
+
+username="mawarner" # Change this accordingly
+argnum=$#
+
+if [ $argnum == 0 ]
+then
+  echo "Usage:"
+  echo "    $ arrow pathToFile nameOfPrinter "
+  echo "    (Add '-p' before pathToFile to eco-print.)"
+  echo
+else
+  # Parse Arguments
+  paperopts=""
+  file="$1"
+  printer="$2"
+
+  # Parse options
+  while getopts :p opt; do
+    case $opt in
+      p) 
+        paperopts="-o sides=two-sided-long-edge -o number-up=2"
+        file="$2"
+        printer="$3"
+      ;;
+
+      \?)
+        echo "-$OPTARG is an invalid option."
+      ;;
+    esac
+  done
+  
+  if [ -z $printer ] # checks if $printer has length zero
+  then
+    printer="coffee"
+  fi
+
+  echo "$file printing on $printer."
+  `scp $file $username@firedance.soe.ucsc.edu:~/print`
+
+  ssh $username@firedance.soe.ucsc.edu <<-EOFSSH
+    cd print
+    lpr -P $printer $paperopts $(basename $file)
+EOFSSH
+
+  echo  "lpr -P $printer $paperopts $(basename $file)"
+  echo
+fi # end of if argnum == 0
+
+exit 0
