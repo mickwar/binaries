@@ -21,7 +21,7 @@ else
   while getopts :p opt; do
     case $opt in
       p) 
-        paperopts="-o sides=two-sided-long-edge -o number-up=2"
+        paperopts="-o sides=two-sided-long-edge -o number-up=1"
         file="$2"
         printer="$3"
       ;;
@@ -38,14 +38,14 @@ else
   fi
 
   echo "$file printing on $printer."
-  `scp $file $username@firedance.soe.ucsc.edu:~/print`
+  `scp $file $username@citrisdance.soe.ucsc.edu:~/$file`
 
-  ssh $username@firedance.soe.ucsc.edu <<-EOFSSH
-    cd print
+  ssh $username@citrisdance.soe.ucsc.edu <<-EOFSSH
+    cd ~
     lpr -P $printer $paperopts $(basename $file)
 EOFSSH
 
-  echo  "lpr -P $printer $paperopts $(basename $file)"
+  echo  "lpr -P $printer -o postion=center $paperopts $(basename $file)"
   echo
 fi # end of if argnum == 0
 
