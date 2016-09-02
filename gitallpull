@@ -12,7 +12,7 @@ LOCAL_REPO=(
     ~/files/julia
     ~/files/C
     ~/files/homework
-    ~/files/latex
+    ~/files/repos/latex
     ~/files/go-game
     )
 
