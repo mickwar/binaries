@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# check if the directory is an R package
+count=`ls -1 *.Rproj 2>/dev/null | wc -l`
+if [ $count != 0 ]; then 
+    R --slave --vanilla -e 'devtools::document()'
+fi 
+
 # short script to just run all the git commands i commonly use
 git add -A .
 git commit -m 'yes'

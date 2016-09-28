@@ -1,0 +1,10 @@
+#!/bin/bash
+
+DIR=`pwd`
+TO="/home/mickey/bin"
+FILES=*
+for f in $FILES
+do
+    echo "$DIR/$f $TO/$f"
+    ln -s $DIR/$f $TO/$f
+done

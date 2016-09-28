@@ -38,9 +38,9 @@ else
   fi
 
   echo "$file printing on $printer."
-  `scp $file $username@citrisdance.soe.ucsc.edu:~/$file`
+  `scp $file $username@firedance.soe.ucsc.edu:~/$file`
 
-  ssh $username@citrisdance.soe.ucsc.edu <<-EOFSSH
+  ssh $username@firedance.soe.ucsc.edu <<-EOFSSH
     cd ~
     lpr -P $printer $paperopts $(basename $file)
 EOFSSH
