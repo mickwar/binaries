@@ -7,13 +7,16 @@ LOCAL_REPO=(
     ~/bin
     ~/files/python
     ~/files/R
-    ~/files/ubuntu-config
     ~/files/data
     ~/files/julia
     ~/files/C
     ~/files/homework
-    ~/files/repos/latex
     ~/files/go-game
+    ~/files/repos/latex
+    ~/files/repos/lilypond
+    ~/files/repos/mwBASE
+    ~/files/repos/mwEVT
+    ~/files/repos/ubuntu-config
     )
 
 for repository in ${LOCAL_REPO[@]}
