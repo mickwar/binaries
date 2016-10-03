@@ -6,7 +6,6 @@ DIR=`pwd`
 LOCAL_REPO=(
     ~/bin
     ~/files/python
-    ~/files/R
     ~/files/data
     ~/files/julia
     ~/files/C
@@ -16,6 +15,7 @@ LOCAL_REPO=(
     ~/files/repos/lilypond
     ~/files/repos/mwBASE
     ~/files/repos/mwEVT
+    ~/files/repos/r-sandbox
     ~/files/repos/ubuntu-config
     )
 
