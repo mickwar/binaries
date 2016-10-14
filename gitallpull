@@ -9,8 +9,8 @@ LOCAL_REPO=(
     ~/files/data
     ~/files/julia
     ~/files/C
-    ~/files/homework
     ~/files/go-game
+    ~/files/repos/homework
     ~/files/repos/latex
     ~/files/repos/lilypond
     ~/files/repos/mwBASE
