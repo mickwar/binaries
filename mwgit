@@ -1,0 +1,89 @@
+#!/bin/bash
+
+DIR=`pwd`
+LOCAL_REPO=(
+    ~/files/python
+    ~/files/data
+    ~/files/julia
+    ~/files/C
+    ~/files/go-game
+    ~/files/repos/binaries
+    ~/files/repos/homework
+    ~/files/repos/latex
+    ~/files/repos/lilypond
+    ~/files/repos/mwBASE
+    ~/files/repos/mwEVT
+    ~/files/repos/r-sandbox
+    ~/files/repos/ubuntu-config
+    )
+
+UPTODATE=()
+PULLED=()
+PUSHED=()
+DIVERGED=()
+NOTFOUND=()
+
+for repository in ${LOCAL_REPO[@]}
+do
+    if [ -d "$repository" ]; then
+        cd $repository
+        UPSTREAM=${1:-'@{u}'}
+        LOCAL=$(git rev-parse @)
+        REMOTE=$(git rev-parse "$UPSTREAM")
+        BASE=$(git merge-base @ "$UPSTREAM")
+
+        if [ $LOCAL = $REMOTE ]; then
+#           echo "Up-to-date"
+            UPTODATE+=($repository)
+
+        elif [ $LOCAL = $BASE ]; then
+#           echo "Need to pull"
+            PULLED+=($repository)
+            git pull
+            echo ""
+
+        elif [ $REMOTE = $BASE ]; then
+#           echo "Need to push"
+            PUSHED+=($repository)
+
+            # check if the directory is an R package (and update documentation)
+            count=`ls -1 *.Rproj 2>/dev/null | wc -l`
+            if [ $count != 0 ]; then 
+                R --slave --vanilla -e 'devtools::document()'
+            fi 
+
+            git add -A .
+            git commit -m 'yes'
+            git push
+            echo ""
+
+        else
+            DIVERGED+=($repository)
+#           echo "Diverged"
+        fi
+
+#       echo ""
+    else
+        NOTFOUND+=($repository)
+#       echo "Directory $repository not found."  
+#       echo ""
+    fi
+done
+
+printf "\nRepositories up-to-date:\n"
+printf '    %s\n' "${UPTODATE[@]}"
+
+printf "\nRepositories pulled:\n"
+printf '    %s\n' "${PULLED[@]}"
+
+printf "\nRepositories pushed:\n"
+printf '    %s\n' "${PUSHED[@]}"
+
+printf "\nRepositories diverged:\n"
+printf '    %s\n' "${DIVERGED[@]}"
+
+printf "\nRepositories not found on local machine:\n"
+printf '    %s\n' "${NOTFOUND[@]}"
+printf "\n"
+
+cd $DIR
