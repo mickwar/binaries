@@ -17,6 +17,8 @@ LOCAL_REPO=(
     ~/files/repos/ubuntu-config
     )
 
+        echo "test"
+
 UPTODATE=()
 PULLED=()
 PUSHED=()
