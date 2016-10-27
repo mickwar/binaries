@@ -74,8 +74,10 @@ do
     fi
 done
 
-printf "\nRepositories up-to-date:\n"
-printf '    %s\n' "${UPTODATE[@]}"
+if [ ${#UPTODATE[@]} == 0 ]; then
+    printf "\nRepositories up-to-date:\n"
+    printf '    %s\n' "${UPTODATE[@]}"
+fi
 
 printf "\nRepositories pulled:\n"
 printf '    %s\n' "${PULLED[@]}"
