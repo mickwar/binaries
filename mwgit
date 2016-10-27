@@ -29,7 +29,7 @@ do
         ### Go to directory
         cd $repository
 
-        ### do an add and commit
+        ### do an add and commit (if necessary)
         # check if the directory is an R package (and update documentation)
         count=`ls -1 *.Rproj 2>/dev/null | wc -l`
         if [ $count != 0 ]; then 
@@ -37,7 +37,9 @@ do
         fi 
 
         git add -A .
-        git commit -m 'yes'
+        if [ `git diff --cached --name-only | wc -l` != 0 ]; then
+            git commit -m 'yes'
+        fi
 
         ### 
         UPSTREAM=${1:-'@{u}'}
