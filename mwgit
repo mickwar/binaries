@@ -17,8 +17,6 @@ LOCAL_REPO=(
     ~/files/repos/ubuntu-config
     )
 
-        echo "test"
-
 UPTODATE=()
 PULLED=()
 PUSHED=()
@@ -28,7 +26,20 @@ NOTFOUND=()
 for repository in ${LOCAL_REPO[@]}
 do
     if [ -d "$repository" ]; then
+        ### Go to directory
         cd $repository
+
+        ### do an add and commit
+        # check if the directory is an R package (and update documentation)
+        count=`ls -1 *.Rproj 2>/dev/null | wc -l`
+        if [ $count != 0 ]; then 
+            R --slave --vanilla -e 'devtools::document()'
+        fi 
+
+        git add -A .
+        git commit -m 'yes'
+
+        ### 
         UPSTREAM=${1:-'@{u}'}
         LOCAL=$(git rev-parse @)
         REMOTE=$(git rev-parse "$UPSTREAM")
@@ -48,11 +59,6 @@ do
 #           echo "Need to push"
             PUSHED+=($repository)
 
-            # check if the directory is an R package (and update documentation)
-            count=`ls -1 *.Rproj 2>/dev/null | wc -l`
-            if [ $count != 0 ]; then 
-                R --slave --vanilla -e 'devtools::document()'
-            fi 
 
             git add -A .
             git commit -m 'yes'
