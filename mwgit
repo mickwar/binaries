@@ -48,35 +48,28 @@ do
         BASE=$(git merge-base @ "$UPSTREAM")
 
         if [ $LOCAL = $REMOTE ]; then
-#           echo "Up-to-date"
             UPTODATE+=($repository)
 
         elif [ $LOCAL = $BASE ]; then
-#           echo "Need to pull"
+            echo "Pulling $repository ..."
             PULLED+=($repository)
             git pull
             echo ""
 
         elif [ $REMOTE = $BASE ]; then
-#           echo "Need to push"
+            echo "Pushing $repository ..."
             PUSHED+=($repository)
-
-
-            git add -A .
-            git commit -m 'yes'
+            ### Repo should already have been files added and committed
             git push
             echo ""
 
         else
             DIVERGED+=($repository)
-#           echo "Diverged"
+
         fi
 
-#       echo ""
     else
         NOTFOUND+=($repository)
-#       echo "Directory $repository not found."  
-#       echo ""
     fi
 done
 
