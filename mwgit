@@ -30,6 +30,7 @@ do
         cd $repository
 
         ### do an add and commit (if necessary)
+        echo "Adding and committing files for $repository ..."
         git add -A .
         if [ `git diff --cached --name-only | wc -l` != 0 ]; then
             # check if the directory is an R package (and update documentation)
