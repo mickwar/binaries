@@ -80,19 +80,19 @@ do
     fi
 done
 
-printf "\nRepositories up-to-date:\n"
+printf "Repositories up-to-date:\n"
 printf '    %s\n' "${UPTODATE[@]}"
 
-printf "\nRepositories pulled:\n"
+printf "Repositories pulled:\n"
 printf '    %s\n' "${PULLED[@]}"
 
-printf "\nRepositories pushed:\n"
+printf "Repositories pushed:\n"
 printf '    %s\n' "${PUSHED[@]}"
 
-printf "\nRepositories diverged:\n"
+printf "Repositories diverged:\n"
 printf '    %s\n' "${DIVERGED[@]}"
 
-printf "\nRepositories not found on local machine:\n"
+printf "Repositories not found on local machine:\n"
 printf '    %s\n' "${NOTFOUND[@]}"
 printf "\n"
 
