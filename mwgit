@@ -30,14 +30,14 @@ do
         cd $repository
 
         ### do an add and commit (if necessary)
-        # check if the directory is an R package (and update documentation)
-        count=`ls -1 *.Rproj 2>/dev/null | wc -l`
-        if [ $count != 0 ]; then 
-            R --slave --vanilla -e 'devtools::document()'
-        fi 
-
         git add -A .
         if [ `git diff --cached --name-only | wc -l` != 0 ]; then
+            # check if the directory is an R package (and update documentation)
+            count=`ls -1 *.Rproj 2>/dev/null | wc -l`
+            if [ $count != 0 ]; then 
+                R --slave --vanilla -e 'devtools::document()'
+                git add -A .
+            fi 
             git commit -m 'yes'
         fi
 
