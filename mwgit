@@ -29,6 +29,9 @@ do
         ### Go to directory
         cd $repository
 
+        ### Bring remote refs up to date
+        git remote update > /dev/null
+
         ### do an add and commit (if necessary)
         git add -A .
         if [ `git diff --cached --name-only | wc -l` != 0 ]; then
