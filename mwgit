@@ -78,6 +78,7 @@ do
     fi
 done
 
+printf "\nSummary:"
 if [ ${#UPTODATE[@]} != 0 ]; then
     printf "\nRepositories up-to-date:\n"
     printf '    %s\n' "${UPTODATE[@]}"
