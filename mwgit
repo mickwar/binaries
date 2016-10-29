@@ -30,6 +30,7 @@ do
         cd $repository
 
         ### Bring remote refs up to date
+        echo "Updating refs for $repository ..."
         git remote update > /dev/null
 
         ### do an add and commit (if necessary)
