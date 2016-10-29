@@ -59,14 +59,12 @@ do
             echo "Pulling $repository ..."
             PULLED+=($repository)
             git pull
-            echo ""
 
         elif [ $REMOTE = $BASE ]; then
             echo "Pushing $repository ..."
             PUSHED+=($repository)
             ### Repo should already have been files added and committed
             git push
-            echo ""
 
         else
             DIVERGED+=($repository)
