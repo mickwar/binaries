@@ -1,10 +1,14 @@
 #!/bin/bash
 
 DIR=`pwd`
-TO="/home/mickey/bin"
+TO="$HOME/bin"
+
+mkdir -p $TO
+
 FILES=*
 for f in $FILES
 do
-    echo "$DIR/$f $TO/$f"
-    ln -s $DIR/$f $TO/$f
+    if [[ -x $f ]]; then
+        ln -vs $DIR/$f $TO/$f
+    fi
 done

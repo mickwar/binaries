@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find ~ -name 'output_latex.pdf' -exec rm -f {} \;
