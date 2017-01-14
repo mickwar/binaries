@@ -1,0 +1,3 @@
+#!/bin/bash
+
+gcalcli --refresh --military --detail_location --detail_length agenda
