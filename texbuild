@@ -6,7 +6,7 @@
 ###       compile that file without expecting an argument
 
 ### start fresh
-rm -f output_latex.pdf    # don't name anything output_latex.pdf
+#rm -f output_latex.pdf    # don't name anything output_latex.pdf
 
 # compile the .tex once
 pdflatex -interaction=nonstopmode main.tex
