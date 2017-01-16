@@ -24,6 +24,7 @@ pdflatex -interaction=nonstopmode main.tex
 # clean up
 rm -f main.aux main.log main.nav main.snm
 rm -f main.toc main.out main.blg main.bbl
+rm -f texput.log
 
 # rename and open
 mv main.pdf output_latex.pdf
