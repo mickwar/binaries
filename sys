@@ -14,7 +14,7 @@ RAM=`cat /proc/meminfo 2> /dev/null | grep 'MemTotal' | \
 GIGS=$(($RAM/1024/1024))
 MEGS=$(((100*($RAM - $GIGS*1024*1024)/1024)/1024))
 echo "    RAM: ${GIGS}.${MEGS}G"
-HD=`echo $(df -h | sed '2!d') | cut -f 2-5 -d ' '`
+HD=`echo $(df --total -h | sed '$!d') | cut -f 2-5 -d ' '`
 HD[1]=`echo $HD | cut -f 1 -d ' '`
 HD[2]=`echo $HD | cut -f 2 -d ' '`
 HD[3]=`echo $HD | cut -f 3 -d ' '`
@@ -27,81 +27,81 @@ echo "         Use%   ${HD[4]}"
 echo -n "    Uptime:"
 uptime 2> /dev/null
 
-# i could probably customize the shell to display this
-# information across the top
-
-# BATTERY
-# the directory where the battery stuff on the chromebook is,
-# may be different for other systems
-DIR=/sys/class/power_supply/BAT0
-if [ $HOSTNAME == "aurora" ]; then
-    DIR=/sys/class/power_supply/sbs-104-000b/
-fi
-
-if [ $HOSTNAME == "quasar" ]; then
-    STATUS=`cat $DIR/status`
-    POWER_NOW=`cat $DIR/energy_now`
-    POWER_MAX=`cat $DIR/energy_full`
-fi
-if [ $HOSTNAME == "starquake" ]; then
-    STATUS=`cat $DIR/status`
-    POWER_NOW=`cat $DIR/charge_now`
-    POWER_MAX=`cat $DIR/charge_full`
-fi
-if [ $HOSTNAME == "aurora" ]; then
-    STATUS=`cat $DIR/status`
-    POWER_NOW=`cat $DIR/charge_now`
-    POWER_MAX=`cat $DIR/charge_full`
-fi
-
-# use bash arithmetic to get a percentage and decimal point
-PERC=$(((1000*$POWER_NOW)/$POWER_MAX))
-# add the decimal point
-PERC=${PERC:0:2}.${PERC:2:1}
-
-if [ $STATUS == "Unknown" ]; then
-    STATUS=Charging
-fi
-
-echo ""
-echo "    Battery status: $STATUS"
-if [ $STATUS == "Discharging" ]; then
-    echo "    Power level: $PERC%"
-#   I will need to calculate this myself, the ASUS doesn't have the file
-#   like the Chromebook does
-    if [ $HOSTNAME == "aurora" ]; then
-        TIME=`cat $DIR/time_to_empty_avg`
-        HOUR=$(($TIME/60/60))
-        MIN=$(($TIME/60 - 60*$HOUR))
-        echo "    Time remaining: ${HOUR}h ${MIN}m"
-    fi
-fi
-if [ $STATUS == "Charging" ]; then
-    echo "    Power level: $PERC%"
-    if [ $HOSTNAME == "aurora" ]; then
-        TIME=`cat $DIR/time_to_full_avg`
-        HOUR=$(($TIME/60/60))
-        MIN=$(($TIME/60 - 60*$HOUR))
-        echo "    Time remaining: ${HOUR}h ${MIN}m"
-    fi
-fi
-echo ""
-
-# CPU
-if [ $HOSTNAME == "quasar" ]; then
-    DIR=/sys/class/thermal/thermal_zone0/
-
-    echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
-    echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
-    echo "    Critical: $((`cat $DIR/trip_point_1_temp`/1000)) degrees C"
-    echo ""
-fi
-
-if [ $HOSTNAME == "aurora" ]; then
-    DIR=/sys/class/thermal/thermal_zone0/
-
-    echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
-    echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
-    echo "    Critical: $((`cat $DIR/trip_point_2_temp`/1000)) degrees C"
-    echo ""
-fi
+# # i could probably customize the shell to display this
+# # information across the top
+# 
+# # BATTERY
+# # the directory where the battery stuff on the chromebook is,
+# # may be different for other systems
+# DIR=/sys/class/power_supply/BAT0
+# if [ $HOSTNAME == "aurora" ]; then
+#     DIR=/sys/class/power_supply/sbs-104-000b/
+# fi
+# 
+# if [ $HOSTNAME == "quasar" ]; then
+#     STATUS=`cat $DIR/status`
+#     POWER_NOW=`cat $DIR/energy_now`
+#     POWER_MAX=`cat $DIR/energy_full`
+# fi
+# if [ $HOSTNAME == "starquake" ]; then
+#     STATUS=`cat $DIR/status`
+#     POWER_NOW=`cat $DIR/charge_now`
+#     POWER_MAX=`cat $DIR/charge_full`
+# fi
+# if [ $HOSTNAME == "aurora" ]; then
+#     STATUS=`cat $DIR/status`
+#     POWER_NOW=`cat $DIR/charge_now`
+#     POWER_MAX=`cat $DIR/charge_full`
+# fi
+# 
+# # use bash arithmetic to get a percentage and decimal point
+# PERC=$(((1000*$POWER_NOW)/$POWER_MAX))
+# # add the decimal point
+# PERC=${PERC:0:2}.${PERC:2:1}
+# 
+# if [ $STATUS == "Unknown" ]; then
+#     STATUS=Charging
+# fi
+# 
+# echo ""
+# echo "    Battery status: $STATUS"
+# if [ $STATUS == "Discharging" ]; then
+#     echo "    Power level: $PERC%"
+# #   I will need to calculate this myself, the ASUS doesn't have the file
+# #   like the Chromebook does
+#     if [ $HOSTNAME == "aurora" ]; then
+#         TIME=`cat $DIR/time_to_empty_avg`
+#         HOUR=$(($TIME/60/60))
+#         MIN=$(($TIME/60 - 60*$HOUR))
+#         echo "    Time remaining: ${HOUR}h ${MIN}m"
+#     fi
+# fi
+# if [ $STATUS == "Charging" ]; then
+#     echo "    Power level: $PERC%"
+#     if [ $HOSTNAME == "aurora" ]; then
+#         TIME=`cat $DIR/time_to_full_avg`
+#         HOUR=$(($TIME/60/60))
+#         MIN=$(($TIME/60 - 60*$HOUR))
+#         echo "    Time remaining: ${HOUR}h ${MIN}m"
+#     fi
+# fi
+# echo ""
+# 
+# # CPU
+# if [ $HOSTNAME == "quasar" ]; then
+#     DIR=/sys/class/thermal/thermal_zone0/
+# 
+#     echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
+#     echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
+#     echo "    Critical: $((`cat $DIR/trip_point_1_temp`/1000)) degrees C"
+#     echo ""
+# fi
+# 
+# if [ $HOSTNAME == "aurora" ]; then
+#     DIR=/sys/class/thermal/thermal_zone0/
+# 
+#     echo "    CPU temperature: $((`cat $DIR/temp`/1000)) degrees C"
+#     echo "    Warning: $((`cat $DIR/trip_point_0_temp`/1000)) degrees C"
+#     echo "    Critical: $((`cat $DIR/trip_point_2_temp`/1000)) degrees C"
+#     echo ""
+# fi
