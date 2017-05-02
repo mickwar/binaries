@@ -13,6 +13,7 @@ LOCAL_REPO=(
     ~/files/repos/lilypond
     ~/files/repos/mwBASE
     ~/files/repos/mwEVT
+    ~/files/repos/projects
     ~/files/repos/r-sandbox
     ~/files/repos/ubuntu-config
     )
