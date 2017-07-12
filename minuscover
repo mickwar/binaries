@@ -13,7 +13,7 @@ fi
 
 for FILE in "$@"; do
     mv $FILE .temp_mw_$FILE
-    $CMD .temp_mw_$FILE cat end-end output $FILE
+    $CMD .temp_mw_$FILE cat 2-end output $FILE
     if [ "$1" == "--delete" ]; then
         rm -f .temp_mw_$FILE
     fi
