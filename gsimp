@@ -1,0 +1,70 @@
+#!/bin/bash
+
+if [ $# == '0' ]; then
+    msg="
+usage:
+    gsimp -u dir
+    gsimp -d dir
+    gsimp dir
+
+dir is local directory to be synced
+Option -u (--upload) is for sync upload
+Option -d (--download) is for sync download
+
+When neither is given, an upload is executed,
+followed by a download
+"
+    echo "$msg"
+    exit 0
+fi
+
+# TODO Allow the option to give Google Drive 
+# directory name. If not provided, assume the
+# remote and local (given) directories share a
+# name.
+
+ID=1-dWIrRWIlPC-1Hf_CqKsxD9bviKkEEjO
+DO_UP=1
+DO_DOWN=1
+
+# Sloppily process the arguments
+if [ $1 == '-u' ] || [ $1 == '--upload' ]; then
+    if [ -z $2 ]; then
+        echo "Error: no directory given"
+        exit 1
+    fi
+    DIR=$2
+    DO_DOWN=0
+fi
+
+if [ $1 == '-d' ] || [ $1 == '--download' ]; then
+    if [ -z $2 ]; then
+        echo "Error: no directory given"
+        exit 1
+    fi
+    DIR=$2
+    DO_UP=0
+fi
+
+if [ -z "$DIR" ]; then
+    DIR=$1
+fi
+
+if [ ! -d "$DIR" ]; then
+    echo "Local directory does not exist."
+    exit 1
+fi
+
+
+# Do the gdrive stuff
+if [ $DO_UP == 1 ]; then
+    echo "Upload"
+    gdrive sync upload $DIR $ID
+    echo ""
+fi
+if [ $DO_DOWN == 1 ]; then
+    echo "Download"
+    gdrive sync download $ID $DIR
+    echo ""
+fi
+
